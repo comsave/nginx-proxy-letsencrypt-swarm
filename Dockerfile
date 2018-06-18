@@ -9,10 +9,9 @@ RUN certbot register -n -m joeri.veder@comsave.com --agree-tos
 
 RUN apt-get update -y \
  && apt-get install -y \
-            supervisor \
+            # supervisor \
             jq \
-            curl \
-            inotify-tools
+            curl
 
 RUN wget -q https://dl.minio.io/client/mc/release/linux-amd64/mc \
  && mv ./mc /usr/local/bin/mc \
@@ -24,11 +23,11 @@ ENV S3FS_ENDPOINT=https://s3.wasabisys.com \
 
 RUN mc config host add wasabi $S3FS_ENDPOINT $S3FS_ACCESSKEY $S3FS_SECRETKEY
 
-# RUN mc mb nginx-proxy-confd
-# RUN mc mb nginx-proxy-letsencrypt
+# RUN mkdir -p /etc/supervisor/conf.d
 
-RUN mkdir -p /etc/supervisor/conf.d
-
-COPY ./supervisor/* /etc/supervisor/conf.d/
+# COPY ./supervisor/* /etc/supervisor/conf.d/
 
 COPY ./app /app/
+
+ENTRYPOINT ["/app/init.sh"]
+CMD ["forego", "start", "-r"]
