@@ -215,7 +215,7 @@ server {
 	include /etc/nginx/network_internal.conf;
 	{{ end }}
 
-	include /app/options-addition-ssl-nginx.conf;
+	include /app/comsave/options-addition-ssl-nginx.conf;
 
 	ssl_certificate /etc/nginx/certs/{{ (printf "%s.crt" $cert) }};
 	ssl_certificate_key /etc/nginx/certs/{{ (printf "%s.key" $cert) }};

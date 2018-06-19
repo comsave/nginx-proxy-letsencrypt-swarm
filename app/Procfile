@@ -1,2 +1,2 @@
-dockergen: docker-gen -watch -notify "nginx -s reload && /app/after_dockergen.sh" /app/nginx.tmpl /etc/nginx/conf.d/default.conf
+dockergen: docker-gen -watch -notify "nginx -s reload && /app/comsave/after_dockergen.sh" /app/nginx.tmpl /etc/nginx/conf.d/default.conf
 nginx: nginx

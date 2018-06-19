@@ -9,7 +9,7 @@ RUN certbot register -n -m joeri.veder@comsave.com --agree-tos
 
 RUN apt-get update -y \
  && apt-get install -y \
-            # supervisor \
+            cron \
             jq \
             curl
 
@@ -23,11 +23,13 @@ ENV S3FS_ENDPOINT=https://s3.wasabisys.com \
 
 RUN mc config host add wasabi $S3FS_ENDPOINT $S3FS_ACCESSKEY $S3FS_SECRETKEY
 
-# RUN mkdir -p /etc/supervisor/conf.d
+COPY ./cron.d/letsencrypt /etc/cron.d/letsencrypt
+RUN crontab /etc/cron.d/letsencrypt
 
-# COPY ./supervisor/* /etc/supervisor/conf.d/
+COPY ./cron.d/letsencrypt /etc/cron.d/letsencrypt
+RUN crontab /etc/cron.d/letsencrypt
 
 COPY ./app /app/
 
-ENTRYPOINT ["/app/init.sh"]
+ENTRYPOINT ["/app/comsave/init.sh"]
 CMD ["forego", "start", "-r"]

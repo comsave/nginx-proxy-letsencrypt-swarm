@@ -1,0 +1,1 @@
+#0 */12 * * * certbot renew --noninteractive --renew-hook "nginx -s reload && mc mirror --overwrite --remove /etc/letsencrypt wasabi/nginx-proxy-letsencrypt" >/dev/null 2>&1
