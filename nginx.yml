@@ -6,9 +6,13 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    environment:
+      - S3FS_ENDPOINT=https://s3.wasabisys.com
+      - S3FS_ACCESSKEY=HTGT0EK60QR7KT3WA79I
+      - S3FS_SECRETKEY=EmggKIe499mBQYOU1bETGLqDrawYr1nHzVsibPXY
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-    
+
 networks:
  default:
    external:
