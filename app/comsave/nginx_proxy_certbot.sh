@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "nginx-proxy-certbot started..."
 
-for container_id in $(curl -s -X GET --unix-socket /tmp/docker.sock http:///v1.37/containers/json | jq -r '.[] | .Id'); do
-  container_virtual_host=$(curl -s -X GET --unix-socket /tmp/docker.sock "http:///v1.37/containers/$container_id/json" | jq '.Config.Env | map(select(. | contains("VIRTUAL_HOST"))) | .[0]')
+for container_id in $(curl -s -X GET --unix-socket /tmp/docker.sock http://v1.37/containers/json | jq -r '.[] | .Id'); do
+  container_virtual_host=$(curl -s -X GET --unix-socket /tmp/docker.sock "http://v1.37/containers/$container_id/json" | jq '.Config.Env | map(select(. | contains("VIRTUAL_HOST"))) | .[0]')
 
   if [ "$container_virtual_host" != "null" ]; then
     container_virtual_host=$(eval echo "$container_virtual_host" | sed 's/VIRTUAL_HOST=\(.*\)/\1/')
