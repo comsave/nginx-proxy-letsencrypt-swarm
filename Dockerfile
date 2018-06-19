@@ -5,17 +5,15 @@ RUN wget -q https://dl.eff.org/certbot-auto \
 && mv ./certbot-auto /usr/local/bin/certbot \
 && certbot --install-only --non-interactive
 
-RUN certbot register -n -m joeri.veder@comsave.com --agree-tos
+RUN wget -q https://dl.minio.io/client/mc/release/linux-amd64/mc \
+&& mv ./mc /usr/local/bin/mc \
+&& chmod a+x /usr/local/bin/mc
 
 RUN apt-get update -y \
  && apt-get install -y \
             cron \
             jq \
             curl
-
-RUN wget -q https://dl.minio.io/client/mc/release/linux-amd64/mc \
- && mv ./mc /usr/local/bin/mc \
- && chmod a+x /usr/local/bin/mc
 
 COPY ./cron.d/letsencrypt /etc/cron.d/letsencrypt
 RUN crontab /etc/cron.d/letsencrypt

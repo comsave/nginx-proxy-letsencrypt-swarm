@@ -10,6 +10,7 @@ services:
       - S3FS_ENDPOINT=https://s3.wasabisys.com
       - S3FS_ACCESSKEY=HTGT0EK60QR7KT3WA79I
       - S3FS_SECRETKEY=EmggKIe499mBQYOU1bETGLqDrawYr1nHzVsibPXY
+      - LETSENCRYPT_EMAIL=joeri.veder@comsave.com
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
 
