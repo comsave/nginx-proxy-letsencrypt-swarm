@@ -1,0 +1,14 @@
+version: '3.6'
+
+services:
+  docs_staging:
+    image: docker.comsave.nl:5000/comsave/documentation:master
+    ports:
+      - 8989:8989
+    environment:
+      - VIRTUAL_HOST=staging.developer.comsave.com
+
+networks:
+ default:
+   external:
+     name: nginx-proxy

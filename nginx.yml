@@ -8,12 +8,8 @@ services:
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
-
-  web:
-    image: docker.comsave.nl:5000/comsave/documentation:master
-    ports:
-      - 8989:8989
-    environment:
-      - VIRTUAL_HOST=staging.developer.comsave.com
-    # depends_on:
-    #   - nginx-proxy
+    
+networks:
+ default:
+   external:
+     name: nginx-proxy

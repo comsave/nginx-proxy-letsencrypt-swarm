@@ -1,23 +1,27 @@
 #!/bin/bash
 
-echo 'recovered synced symlinks.'
+echo 'recovering synced symlinks...'
 
-rm -rf /etc/letsencrypt/live_original/
-mv /etc/letsencrypt/live /etc/letsencrypt/live_original
+rm -rf /etc/letsencrypt/live
 
-for D in $(ls /etc/letsencrypt/live_original); do
+for D in $(ls /etc/letsencrypt/archive); do
       mkdir -p /etc/letsencrypt/live/$D
 
       echo 'created directory /etc/letsencrypt/live/'$D
 
-      for F in $(ls /etc/letsencrypt/live_original/$D); do
-          ln -s /etc/letsencrypt/live_original/$D/$F /etc/letsencrypt/live/$D/$F
+      for F in $(ls /etc/letsencrypt/archive/$D); do
+          new_name=$(printf '%s\n' "${F//[[:digit:]]/}")
 
-          echo 'created file /etc/letsencrypt/live/'${D}'/'${F}
+          rm /etc/letsencrypt/live/$D/$new_name
+          ln -s /etc/letsencrypt/archive/$D/$F /etc/letsencrypt/live/$D/$new_name
+
+          echo 'created file /etc/letsencrypt/live/'${D}'/'${new_name}
       done
 done
 
-echo 'creating certs symlinks...'
+echo 'recovered synced symlinks.'
+
+echo 'adding virtual host certs symlinks...'
 
 for container_virtual_host in $(ls /etc/letsencrypt/live); do
   ln -s /etc/letsencrypt/live/$container_virtual_host/fullchain.pem /etc/nginx/certs/$container_virtual_host.crt
@@ -25,9 +29,9 @@ for container_virtual_host in $(ls /etc/letsencrypt/live); do
   ln -s /etc/letsencrypt/live/$container_virtual_host/fullchain.pem /etc/nginx/certs/$container_virtual_host.chain.pem
   ln -s /etc/letsencrypt/ssl-dhparams.pem /etc/nginx/certs/$container_virtual_host.dhparam.pem
 
-  docker-gen /app/nginx.tmpl /etc/nginx/conf.d/default.conf
-
   echo "Symlinked $container_virtual_host certs."
 done
 
-echo 'finished creating certs symlinks.'
+echo 'finished adding virtual host certs symlinks.'
+
+docker-gen /app/nginx.tmpl /etc/nginx/conf.d/default.conf
