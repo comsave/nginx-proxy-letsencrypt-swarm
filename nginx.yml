@@ -14,6 +14,28 @@ services:
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
 
+  swarm-listener:
+    image: dockerflow/docker-flow-swarm-listener
+    environment:
+      - DF_NOTIFY_CREATE_SERVICE_URL=http://nginx-proxy:8888/v1/event/create
+      - DF_NOTIFY_REMOVE_SERVICE_URL=http://nginx-proxy:8888/v1/event/remove
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    # deploy:
+    #   labels:
+    #     - com.df.notify=true
+      #   - com.df.distribute=true
+      #   - com.df.alertName=memlimit
+      #   - com.df.alertIf=@service_mem_limit:0.8
+      #   - com.df.alertFor=30s
+      # placement:
+      #   constraints: [node.role == manager]
+      # resources:
+      #   reservations:
+      #     memory: 10M
+      #   limits:
+      #     memory: 20M
+
 networks:
  default:
    external:
