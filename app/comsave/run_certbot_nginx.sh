@@ -1,14 +1,14 @@
 #!/bin/bash
 
 if [ -n "$1" ]; then
-  echo "SWARM_SERVICE_ID argument is not set"
+  echo "SWARM_SERVICE_NAME argument is not set"
 
   exit 1
 fi
 
-SWARM_SERVICE_ID=$1
+SWARM_SERVICE_NAME=$1
 
-SERVICE_VIRTUAL_HOST=$(curl -s -X GET --unix-socket /tmp/docker.sock http://v1.37/services/$SWARM_SERVICE_ID | jq '.Spec.TaskTemplate.ContainerSpec.Env | map(select(. | contains("VIRTUAL_HOST"))) | .[0]')
+SERVICE_VIRTUAL_HOST=$(curl -s -X GET --unix-socket /tmp/docker.sock 'http://v1.37/services?filters=\{"name":\["$SWARM_SERVICE_NAME"\]\}' | jq '.Spec.TaskTemplate.ContainerSpec.Env | map(select(. | contains("VIRTUAL_HOST"))) | .[0]')
 
 if [ "$SERVICE_VIRTUAL_HOST" != "null" ]; then
   SERVICE_VIRTUAL_HOST=$(eval echo "$SERVICE_VIRTUAL_HOST" | sed 's/VIRTUAL_HOST=\(.*\)/\1/')
