@@ -1,2 +1,2 @@
-dockergen: docker-gen -watch -notify "nginx -s reload && /app/comsave/after_dockergen.sh" /app/nginx.tmpl /etc/nginx/conf.d/default.conf
+docker_swarm_watcher: docker-swarm-watcher -u $DOCKER_SWARM_WATCHER_USERNAME -p $DOCKER_SWARM_WATCHER_PASSWORD -c "/app/comsave/after_docker_service_event.sh"
 nginx: nginx

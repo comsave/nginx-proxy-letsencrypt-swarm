@@ -2,20 +2,20 @@
 
 echo 'recovering synced symlinks...'
 
-rm -rf /etc/letsencrypt/live >/dev/null 2>&1
+rm -rf /etc/letsencrypt/live
 
-for D in $(ls /etc/letsencrypt/archive); do
-      mkdir -p /etc/letsencrypt/live/$D >/dev/null 2>&1
+for CERTIFICATE_DIR in $(ls /etc/letsencrypt/archive); do
+      mkdir -p /etc/letsencrypt/live/$CERTIFICATE_DIR
 
-      echo 'created directory /etc/letsencrypt/live/'$D
+      echo "created directory /etc/letsencrypt/live/$CERTIFICATE_DIR"
 
-      for F in $(ls /etc/letsencrypt/archive/$D); do
-          new_name=$(printf '%s\n' "${F//[[:digit:]]/}")
+      for ORIGINAL_VIRTUAL_HOST_CERTIFICATE_FILE in $(ls /etc/letsencrypt/archive/$CERTIFICATE_DIR); do
+          SYMLINKED_VIRTUAL_HOST_CERTIFICATE_FILE=$(printf '%s\n' "${ORIGINAL_VIRTUAL_HOST_CERTIFICATE_FILE//[[:digit:]]/}")
 
-          rm /etc/letsencrypt/live/$D/$new_name >/dev/null 2>&1
-          ln -s /etc/letsencrypt/archive/$D/$F /etc/letsencrypt/live/$D/$new_name >/dev/null 2>&1
+          rm /etc/letsencrypt/live/$CERTIFICATE_DIR/$SYMLINKED_VIRTUAL_HOST_CERTIFICATE_FILE
+          ln -s /etc/letsencrypt/archive/$CERTIFICATE_DIR/$ORIGINAL_VIRTUAL_HOST_CERTIFICATE_FILE /etc/letsencrypt/live/$CERTIFICATE_DIR/$SYMLINKED_VIRTUAL_HOST_CERTIFICATE_FILE
 
-          echo 'created file /etc/letsencrypt/live/'${D}'/'${new_name}
+          echo "created file /etc/letsencrypt/live/$CERTIFICATE_DIR/$SYMLINKED_VIRTUAL_HOST_CERTIFICATE_FILE"
       done
 done
 
@@ -30,5 +30,3 @@ for VIRTUAL_HOST in $(ls /etc/letsencrypt/live); do
 done
 
 echo 'finished adding virtual host certs symlinks.'
-
-docker-gen /app/nginx.tmpl /etc/nginx/conf.d/default.conf

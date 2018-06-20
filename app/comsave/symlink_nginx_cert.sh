@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -n "$1" ]; then
+if [ -z "$1" ]; then
   echo "VIRTUAL_HOST argument is not set"
 
   exit 1
