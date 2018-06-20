@@ -23,5 +23,5 @@ RUN crontab /etc/cron.d/letsencrypt
 
 COPY ./app /app/
 
-ENTRYPOINT ["/app/comsave/init.sh"]
+ENTRYPOINT ["/app/comsave/entrypoint.sh"]
 CMD ["forego", "start", "-r"]
