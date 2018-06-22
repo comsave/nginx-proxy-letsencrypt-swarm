@@ -15,11 +15,9 @@ if [ ! -z "$SERVICE_VIRTUAL_HOST" ]; then
   SERVICE_VIRTUAL_HOST=$(echo $SERVICE_VIRTUAL_HOST | jq '. | map(select(. | contains("VIRTUAL_HOST"))) | .[0]')
   SERVICE_VIRTUAL_HOST=$(eval echo "$SERVICE_VIRTUAL_HOST" | sed 's/VIRTUAL_HOST=\(.*\)/\1/')
 
-  certbot certonly --nginx --agree-tos -n -m $LETSENCRYPT_EMAIL -d $SERVICE_VIRTUAL_HOST --expand 2>/var/log/certbot.log
+  certbot certonly --nginx --agree-tos -n -m $LETSENCRYPT_EMAIL -d $SERVICE_VIRTUAL_HOST --expand 2>/var/log/certbot.log || true
 
   /app/comsave/symlink_nginx_cert.sh $SERVICE_VIRTUAL_HOST
 
   echo "Generated certificate for $SERVICE_VIRTUAL_HOST."
 fi
-
-docker-gen /app/nginx.tmpl /etc/nginx/conf.d/default.conf

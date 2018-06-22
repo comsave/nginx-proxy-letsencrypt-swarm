@@ -9,6 +9,7 @@ fi
 
 (
  /app/comsave/run_certbot_nginx.sh "$1" \
+ && docker-gen /app/nginx.tmpl /etc/nginx/conf.d/default.conf \
  && nginx -s reload \
  && /app/comsave/sync_push_certs.sh
 ) &
