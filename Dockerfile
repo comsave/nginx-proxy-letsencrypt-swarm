@@ -1,7 +1,7 @@
 FROM golang
 
 RUN cd $GOPATH/src \
- && wget -q -O docker-swarm-watcher.tar.gz https://github.com/comsave/docker-swarm-watcher/archive/0.1.5.tar.gz  \
+ && wget -q -O docker-swarm-watcher.tar.gz https://github.com/comsave/docker-swarm-watcher/archive/0.2.0.tar.gz  \
  && tar xvzf docker-swarm-watcher.tar.gz \
  && cd docker-swarm-watcher*
 

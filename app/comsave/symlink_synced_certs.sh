@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo 'Recovering synced symlinks...'
+echo 'Recovering synced certs symlinks...'
 
 rm -rf /etc/letsencrypt/live
 
@@ -19,7 +19,7 @@ for CERTIFICATE_DIR in $(ls /etc/letsencrypt/archive); do
       done
 done
 
-echo 'Recovered synced symlinks.'
+echo 'Recovered synced certs symlinks.'
 
 echo 'Aadding virtual host certs symlinks...'
 
