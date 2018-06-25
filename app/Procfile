@@ -1,2 +1,2 @@
-docker_swarm_watcher: docker-swarm-watcher -c "/app/comsave/after_docker_service_event.sh" -e="service:create,service:remove,service:update"
+docker_swarm_watcher: docker-swarm-watcher -c "/app/comsave/after_docker_service_event.sh" -s="unix:///tmp/docker.sock" -e="service:create,service:remove,service:update"
 nginx: nginx
