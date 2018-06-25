@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mc mirror wasabi/nginx-proxy-letsencrypt /etc/letsencrypt
+mc mirror s3/$S3FS_BUCKET /etc/letsencrypt
