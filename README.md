@@ -1,10 +1,10 @@
-#nginx-proxy-letsencrypt-swarm
+# nginx-proxy-letsencrypt-swarm
 
 nginx-proxy-letsencrypt-swarm sets up a container running nginx, [comsave/docker-gen](https://github.com/comsave/docker-gen) and [comsave/docker-swarm-watcher](https://github.com/comsave/docker-swarm-watcher). docker-gen generates reverse proxy configs for nginx and reloads nginx when containers are started and stopped. docker-swarm-watcher listens to all management nodes in a swarm an captures there events and acts accordingly. Ssl certificates are automatically generated, stored and renewed in an s3 compatible file storage. This ensures after node failure the container will rebuild with all it's persisted certificates.
 
 **This project only runs in a swarm on manager nodes.**
 
-##Usage:
+## Usage:
 
 Initialize a swarm.
 
@@ -19,7 +19,7 @@ $ docker swarm join-token manager
 ```
 
 
-##Docker compose v3
+## Docker compose v3
 
 ```yml
 version: '3.6'
