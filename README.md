@@ -26,7 +26,7 @@ version: '3.6'
 
 services:
   nginx-proxy:
-    image: comsave/nginx-proxy-letsencrypt-swarm
+    image: joeriv/nginx-proxy-letsencrypt-swarm
     ports:
       - "80:80"
       - "443:443"

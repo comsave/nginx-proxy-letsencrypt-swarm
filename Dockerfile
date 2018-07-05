@@ -2,7 +2,7 @@ FROM golang
 
 # install docker-swarm-watcher
 RUN cd $GOPATH/src \
- && wget -q -O docker-swarm-watcher.tar.gz https://github.com/comsave/docker-swarm-watcher/archive/0.2.0.tar.gz  \
+ && wget -q -O docker-swarm-watcher.tar.gz https://github.com/comsave/docker-swarm-watcher/archive/0.2.1.tar.gz  \
  && tar xvzf docker-swarm-watcher.tar.gz \
  && cd docker-swarm-watcher* \
  && go get -d -v ./... \
