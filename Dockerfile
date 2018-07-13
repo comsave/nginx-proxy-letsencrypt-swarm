@@ -14,7 +14,7 @@ RUN cd $GOPATH/src \
 
  # install docker-gen
 RUN cd $GOPATH/src \
-  && wget -q -O docker-gen.tar.gz https://github.com/comsave/docker-gen/archive/0.7.5.tar.gz  \
+  && wget -q -O docker-gen.tar.gz https://github.com/comsave/docker-gen/archive/0.7.6.tar.gz  \
   && tar xvzf docker-gen.tar.gz \
   && cd docker-gen* \
   && go get -d -v ./... \
