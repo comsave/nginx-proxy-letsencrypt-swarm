@@ -14,7 +14,7 @@ RUN cd $GOPATH/src \
 
  # install docker-gen
 RUN cd $GOPATH/src \
-  && wget -q -O docker-gen.tar.gz https://github.com/comsave/docker-gen/archive/0.7.6.tar.gz  \
+  && wget -q -O docker-gen.tar.gz https://github.com/comsave/docker-gen/archive/0.7.6.2.tar.gz  \
   && tar xvzf docker-gen.tar.gz \
   && cd docker-gen* \
   && go get -d -v ./... \
@@ -23,6 +23,7 @@ RUN cd $GOPATH/src \
   && chmod a+x ./docker-gen* \
   && mv ./docker-gen* /bin/docker-gen \
   && mv ./templates/nginx.tmpl /tmp/nginx.tmpl \
+  && mv ./templates/nginx-behind-proxy.tmpl /tmp/nginx-behind-proxy.tmpl \
   && rm -rf $GOPATH/src/*
 
 FROM jwilder/nginx-proxy
@@ -33,6 +34,7 @@ RUN rm -f $(which docker-gen)
 COPY --from=0 /bin/docker-swarm-watcher /bin/docker-swarm-watcher
 COPY --from=0 /bin/docker-gen /bin/docker-gen
 COPY --from=0 /tmp/nginx.tmpl /app/nginx.tmpl
+COPY --from=0 /tmp/nginx-behind-proxy.tmpl /app/nginx-behind-proxy.tmpl
 
 # install certbot
 RUN wget -q https://dl.eff.org/certbot-auto \
@@ -49,7 +51,8 @@ RUN apt-get update -y \
  && apt-get install -y \
             cron \
             jq \
-            curl
+            curl \
+            procps
 
 COPY ./cron.d/letsencrypt /etc/cron.d/letsencrypt
 RUN crontab /etc/cron.d/letsencrypt
