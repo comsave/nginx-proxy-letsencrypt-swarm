@@ -57,6 +57,8 @@ RUN apt-get update -y \
 COPY ./cron.d/letsencrypt /etc/cron.d/letsencrypt
 RUN crontab /etc/cron.d/letsencrypt
 
+COPY ./templates/nginx.conf.tmpl /etc/nginx/nginx.conf
+
 COPY ./app /app/
 
 ENTRYPOINT ["/app/comsave/entrypoint.sh"]
