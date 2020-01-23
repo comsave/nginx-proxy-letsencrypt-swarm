@@ -10,9 +10,9 @@ set -e
 
 export NGINX_TEMPLATE=/app/nginx.tmpl
 
-if [ ! -z "$BEHIND_PROXY" ] && [ "$BEHIND_PROXY" = true ]; then
-  export NGINX_TEMPLATE=/app/nginx-proxy.tmpl
-fi
+#if [ ! -z "$BEHIND_PROXY" ] && [ "$BEHIND_PROXY" = true ]; then
+#  export NGINX_TEMPLATE=/app/nginx-proxy.tmpl
+#fi
 
 cron -f &
 
